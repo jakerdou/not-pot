@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './App.css';
+import ImageView from './ImageView.js'
 
 class App extends React.Component{
     render(){
         return(
             <div className="App">
-              Not DK
+              <h1>Not DK</h1>
+              <ImageView />
             </div>
         )
     }
