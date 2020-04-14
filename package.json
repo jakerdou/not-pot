@@ -1,5 +1,5 @@
 {
-  "name": "not-dk",
+  "name": "not-pot",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -11,15 +11,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jakerdou/not-dk.git"
+    "url": "git+https://github.com/jakerdou/not-pot.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/jakerdou/not-dk/issues"
+    "url": "https://github.com/jakerdou/not-pot/issues"
   },
-  "homepage": "jakerdou.github.io/not-dk",
+  "homepage": "jakerdou.github.io/not-pot",
   "dependencies": {
     "bootstrap": "^4.4.1",
     "react": "^16.13.1",
