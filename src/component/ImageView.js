@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './ImageView.css';
-import dk1 from '../assets/dk1.png';
-import mario1 from '../assets/mario1.png';
+import pot1 from '../assets/pot1.jpeg';
+import notpot1 from '../assets/notpot1.jpg';
 import Button from 'react-bootstrap/Button';
+import $ from "jquery";
 
 class ImageView extends React.Component{
 
@@ -11,13 +12,13 @@ class ImageView extends React.Component{
     super();
 
     this.imgs = [
-      dk1,
-      mario1
+      pot1,
+      notpot1
     ]
 
     this.outputs = [
-      "This image contains Donkey Kong! Is that correct?",
-      "This image does not contain Donkey Kong! Is that correct?"
+      "This image contains Pot! Is that correct?",
+      "This image does not contain Pot! Is that correct?"
     ]
 
     this.state = {
@@ -26,7 +27,7 @@ class ImageView extends React.Component{
     }
   }
 
-  GetNextImg() {
+  getNextImg() {
     var ci = this.state.currImg;
     var index = this.imgs.findIndex(imgs => imgs === ci);
 
@@ -48,16 +49,40 @@ class ImageView extends React.Component{
     })
   }
 
+  fileUpload(event) {
+    var img = event.target.files[0]
+    var self = this;
+    var formData = new FormData();
+    formData.append("img", img)
+
+
+    $.ajax({
+          type: 'POST',
+          url: 'http://localhost:5000/api/model',
+          data: formData,
+          processData: false,
+
+          success: function(response) {
+            console.log(response)
+          }
+      });
+  }
+
   render() {
     return(
       <div className="App">
         <div><img class="dkImg" src={this.state.currImg} height="250" /></div>
         <div>{this.state.currOutput}</div>
         <div>
-          <Button onClick = {() => this.GetNextImg()}>Yes</Button>
-          <Button onClick = {() => this.GetNextImg()}>No</Button>
+          <Button onClick = {() => this.getNextImg()}>Yes</Button>
+          <Button onClick = {() => this.getNextImg()}>No</Button>
         </div>
-        <div><Button>UPLOAD IMAGE</Button></div>
+        <div>
+          <input type="file" accept=".jpg,.jpeg,.png" onChange={(event) => this.fileUpload(event)} />
+        </div>
+        <div>
+          Upload an image and let the machine learning model tell you whether or not it contains pot!
+        </div>
       </div>
     )
   }

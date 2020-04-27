@@ -7,7 +7,7 @@ class App extends React.Component{
     render(){
         return(
             <div className="App">
-              <h1>Not DK</h1>
+              <h1>Not Pot</h1>
               <ImageView />
             </div>
         )
