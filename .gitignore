@@ -1,4 +1,6 @@
 **/node_modules
 **/build
+**/backend/uploaded-images
+**/backend/__pycache__
 **/data
 .DS_Store

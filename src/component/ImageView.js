@@ -2,84 +2,97 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './ImageView.css';
 import pot1 from '../assets/pot1.jpeg';
-import notpot1 from '../assets/notpot1.jpg';
 import Button from 'react-bootstrap/Button';
 import $ from "jquery";
+
 
 class ImageView extends React.Component{
 
   constructor(){
     super();
 
-    this.imgs = [
-      pot1,
-      notpot1
-    ]
-
-    this.outputs = [
-      "This image contains Pot! Is that correct?",
-      "This image does not contain Pot! Is that correct?"
-    ]
+    this.uploads_dir = "../../backend/uploaded-images/"
 
     this.state = {
-      currImg: this.imgs[0],
-      currOutput: this.outputs[0]
+      currImg: pot1,
+      currOutput: "Welcome to Not Pot!"
     }
   }
 
-  getNextImg() {
-    var ci = this.state.currImg;
-    var index = this.imgs.findIndex(imgs => imgs === ci);
 
-    var nextImg = null;
-    var nextOutput = null;
+  fileDisplay(img) {
+    console.log(img)
+    var img_path = this.uploads_dir + img.name
 
-    if (index===1) {
-      nextImg = this.imgs[0];
-      nextOutput = this.outputs[0];
+    try {
+      this.setState({
+        currImg: img_path
+      })
     }
-    else {
-      nextImg = this.imgs[1];
-      nextOutput = this.outputs[1];
+    catch(err) {
+      console.log(err)
     }
+  }
+
+
+  percentDisplay(response) {
+    var pct_pot = parseFloat(response)
+    console.log(typeof pct_pot)
+
+    var pct_not_pot = 1 - pct_pot
+    pct_not_pot = pct_not_pot * 100
+    pct_not_pot = pct_not_pot.toFixed(0)
+    console.log(pct_not_pot)
+
+    var msg = "We are " + pct_not_pot + "% certain that this is Not Pot!"
 
     this.setState({
-      currImg: nextImg,
-      currOutput: nextOutput
+      currOutput: msg
     })
   }
+
 
   fileUpload(event) {
     var img = event.target.files[0]
     var self = this;
     var formData = new FormData();
-    formData.append("img", img)
-
+    formData.append('img', img)
 
     $.ajax({
           type: 'POST',
           url: 'http://localhost:5000/api/model',
           data: formData,
+          enctype: 'multipart/form-data',
+          contentType: false,
+          cache: false,
           processData: false,
 
           success: function(response) {
             console.log(response)
+
+            self.fileDisplay(img)
+            self.percentDisplay(response)
           }
       });
   }
 
+
+  // TODO: add yes/no buttons that let me label data that people upload
   render() {
     return(
       <div className="App">
-        <div><img class="dkImg" src={this.state.currImg} height="250" /></div>
+        <div><img class="potImg" src={this.state.currImg} height="250" /></div>
         <div>{this.state.currOutput}</div>
+
         <div>
-          <Button onClick = {() => this.getNextImg()}>Yes</Button>
-          <Button onClick = {() => this.getNextImg()}>No</Button>
+          <form method="post">
+            <input
+              type="file"
+              accept=".jpg,.jpeg,.png"
+              onChange={(event) => this.fileUpload(event)} />
+          </form>
         </div>
-        <div>
-          <input type="file" accept=".jpg,.jpeg,.png" onChange={(event) => this.fileUpload(event)} />
-        </div>
+
         <div>
           Upload an image and let the machine learning model tell you whether or not it contains pot!
         </div>
@@ -87,5 +100,6 @@ class ImageView extends React.Component{
     )
   }
 }
+
 
 export default ImageView;

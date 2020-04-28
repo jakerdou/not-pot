@@ -1,4 +1,5 @@
 import cv2
+import os
 from flask import Flask
 from flask import request
 from tensorflow import keras
@@ -7,8 +8,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 
-pics = ["C:/Users/james/Documents/Code/not-pot/data/test/probablyWeed.jpg"]
 model = keras.models.load_model("model.h5")
+uploads_dir = os.path.join(app.root_path, 'uploaded-images')
 
 
 @app.route('/')
@@ -18,20 +19,18 @@ def hello_world():
 
 @app.route('/api/model', methods=['GET', 'POST'])
 def get_model():
-    if request.method == 'GET':
-        index = len(pics) - 1
-        pic = pics[index]
-        pic = cv2.imread(pic)
-
-        return str(eval_image(pic, model))
     if request.method == 'POST':
-        # TODO: get it to actually pass in a file
-        # img = request.form["new_img"]
-        #
-        # return str(request.form)
 
-        # jsonData = request.get_json()
-        return str(request.form.values)
+        my_img_file = request.files['img']
+        file_name = my_img_file.filename
+        file_path = os.path.join(uploads_dir, file_name)
+
+        # will probably want to use secure_filename for this in the future
+        my_img_file.save(file_path)
+
+        img = cv2.imread(file_path)
+        percent_pot = str(eval_image(img, model))
+        return percent_pot
 
 
 def eval_image(img, model):
