@@ -22,11 +22,12 @@ class ImageView extends React.Component{
 
   fileDisplay(img) {
     console.log(img)
+
     var img_path = this.uploads_dir + img.name
 
     try {
       this.setState({
-        currImg: img_path
+        currImg: URL.createObjectURL(img)
       })
     }
     catch(err) {
@@ -37,12 +38,9 @@ class ImageView extends React.Component{
 
   percentDisplay(response) {
     var pct_pot = parseFloat(response)
-    console.log(typeof pct_pot)
-
     var pct_not_pot = 1 - pct_pot
     pct_not_pot = pct_not_pot * 100
     pct_not_pot = pct_not_pot.toFixed(0)
-    console.log(pct_not_pot)
 
     var msg = "We are " + pct_not_pot + "% certain that this is Not Pot!"
 
@@ -53,27 +51,29 @@ class ImageView extends React.Component{
 
 
   fileUpload(event) {
-    var img = event.target.files[0]
-    var self = this;
-    var formData = new FormData();
-    formData.append('img', img)
+    if (event.target.files && event.target.files[0]) {
+      var img = event.target.files[0]
+      var self = this;
+      var formData = new FormData();
+      formData.append('img', img)
 
-    $.ajax({
-          type: 'POST',
-          url: 'http://localhost:5000/api/model',
-          data: formData,
-          enctype: 'multipart/form-data',
-          contentType: false,
-          cache: false,
-          processData: false,
+      $.ajax({
+            type: 'POST',
+            url: 'http://localhost:5000/api/model',
+            data: formData,
+            enctype: 'multipart/form-data',
+            contentType: false,
+            cache: false,
+            processData: false,
 
-          success: function(response) {
-            console.log(response)
+            success: function(response) {
+              console.log(response)
 
-            self.fileDisplay(img)
-            self.percentDisplay(response)
-          }
-      });
+              self.fileDisplay(img)
+              self.percentDisplay(response)
+            }
+        });
+    }
   }
 
 
