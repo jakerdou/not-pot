@@ -11,8 +11,6 @@ class ImageView extends React.Component{
   constructor(){
     super();
 
-    this.uploads_dir = "../../backend/uploaded-images/"
-
     this.state = {
       currImg: pot1,
       currOutput: "Welcome to Not Pot!"
@@ -22,8 +20,6 @@ class ImageView extends React.Component{
 
   fileDisplay(img) {
     console.log(img)
-
-    var img_path = this.uploads_dir + img.name
 
     try {
       this.setState({
@@ -57,6 +53,8 @@ class ImageView extends React.Component{
       var formData = new FormData();
       formData.append('img', img)
 
+      self.fileDisplay(img)
+
       $.ajax({
             type: 'POST',
             url: 'http://localhost:5000/api/model',
@@ -69,7 +67,6 @@ class ImageView extends React.Component{
             success: function(response) {
               console.log(response)
 
-              self.fileDisplay(img)
               self.percentDisplay(response)
             }
         });
