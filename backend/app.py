@@ -6,14 +6,12 @@ from flask import Flask
 from flask import request
 from tensorflow import keras
 from flask_cors import CORS
-from flask_pymongo import PyMongo
+# from flask_pymongo import PyMongo
 from config import mongo_pswd
 
 
 app = Flask(__name__)
 CORS(app)
-
-# TODO: put backend on external server
 
 # app.config["MONGO_URI"] = 'mongodb+srv://not-pot:' + urllib.parse.quote_plus(mongo_pswd) + '@cluster0-inwzh.mongodb.net/test?retryWrites=true&w=majority'
 # mongo = PyMongo(app)
