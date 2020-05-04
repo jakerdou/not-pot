@@ -10,6 +10,8 @@ from flask_cors import CORS
 from config import mongo_pswd
 
 
+# TODO: need to verify type of file, it will fail and the server app will crash if the wrong file is put in
+
 app = Flask(__name__)
 CORS(app)
 

@@ -53,11 +53,12 @@ class ImageView extends React.Component{
       var formData = new FormData();
       formData.append('img', img)
 
+      // TODO: check file type before displaying
       self.fileDisplay(img)
 
       $.ajax({
             type: 'POST',
-            url: 'http://3.134.83.90:5000/api/model',
+            url: 'https://3.134.83.90:5000/api/model',
             data: formData,
             enctype: 'multipart/form-data',
             contentType: false,
