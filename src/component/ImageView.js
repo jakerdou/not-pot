@@ -4,12 +4,19 @@ import './ImageView.css';
 import pot1 from '../assets/pot1.jpeg';
 import Button from 'react-bootstrap/Button';
 import $ from "jquery";
+import { Form, Upload, Input } from 'antd'
+import { UploadOutlined, InboxOutlined } from '@ant-design/icons';
+
 
 
 class ImageView extends React.Component{
 
   constructor(){
     super();
+
+    this.formRef = React.createRef(); // COMBAK:
+
+    this.acceptTypes = ["image/jpeg", "image/jpg", "image/png"]
 
     this.state = {
       currImg: pot1,
@@ -19,15 +26,16 @@ class ImageView extends React.Component{
 
 
   fileDisplay(img) {
-    console.log(img)
-
-    try {
+    if (this.acceptTypes.includes(img.type)) {
       this.setState({
-        currImg: URL.createObjectURL(img)
+        currImg: URL.createObjectURL(img),
+        currOutput: "Click submit to evaluate the image!"
       })
     }
-    catch(err) {
-      console.log(err)
+    else {
+      this.setState({
+        currOutput: "Please upload only 1 image of an accepted type (.jpg, .jpeg, .png)."
+      })
     }
   }
 
@@ -46,15 +54,13 @@ class ImageView extends React.Component{
   }
 
 
-  fileUpload(event) {
-    if (event.target.files && event.target.files[0]) {
-      var img = event.target.files[0]
+  fileUpload(fileList) {
+    var img = fileList.dragger.file.originFileObj;
+    var imgList = fileList.dragger.fileList
+    if (this.acceptTypes.includes(img.type) && imgList.length == 1) {
       var self = this;
       var formData = new FormData();
       formData.append('img', img)
-
-      // TODO: check file type before displaying
-      self.fileDisplay(img)
 
       $.ajax({
             type: 'POST',
@@ -72,6 +78,13 @@ class ImageView extends React.Component{
             }
         });
     }
+    else {
+      this.setState({
+        currOutput: "Please upload only 1 image of an accepted type (.jpg, .jpeg, .png)."
+      })
+    }
+
+    this.formRef.current.resetFields();
   }
 
 
@@ -83,16 +96,43 @@ class ImageView extends React.Component{
         <div>{this.state.currOutput}</div>
 
         <div>
-          <form method="post">
-            <input
-              type="file"
-              accept=".jpg,.jpeg,.png"
-              onChange={(event) => this.fileUpload(event)} />
-          </form>
+          Upload an image and let the machine learning model tell you whether or not it contains pot!
         </div>
 
         <div>
-          Upload an image and let the machine learning model tell you whether or not it contains pot!
+          <Form
+            name="my_form"
+            onFinish={(fileList) => this.fileUpload(fileList)}
+            ref={this.formRef}
+          >
+
+            <Form.Item>
+              <Form.Item name="dragger" noStyle>
+                <Upload.Dragger
+                  name="files"
+                  accept={this.acceptTypes}
+                  beforeUpload={file => this.fileDisplay(file)}
+                  >
+                  <p className="ant-upload-drag-icon">
+                    <InboxOutlined />
+                  </p>
+                  <p className="ant-upload-text">Click or drag file to this area to upload</p>
+                </Upload.Dragger>
+              </Form.Item>
+            </Form.Item>
+
+            <Form.Item
+              wrapperCol={{
+                span: 12,
+                offset: 6,
+              }}
+            >
+
+              <Button type="primary"> {/*type="primary" is what makes onFinish work*/}
+                Submit
+              </Button>
+            </Form.Item>
+          </Form>
         </div>
       </div>
     )

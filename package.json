@@ -21,6 +21,7 @@
   },
   "homepage": "jakerdou.github.io/not-pot",
   "dependencies": {
+    "antd": "^4.2.0",
     "bootstrap": "^4.4.1",
     "jquery": "^3.5.0",
     "react": "^16.13.1",
