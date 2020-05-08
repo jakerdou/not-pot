@@ -20,7 +20,7 @@ class ImageView extends React.Component{
 
     this.state = {
       currImg: pot1,
-      currOutput: "Welcome to Not Pot!"
+      currOutput: ""
     }
   }
 
@@ -55,9 +55,15 @@ class ImageView extends React.Component{
 
 
   fileUpload(fileList) {
-    var img = fileList.dragger.file.originFileObj;
-    var imgList = fileList.dragger.fileList
-    if (this.acceptTypes.includes(img.type) && imgList.length == 1) {
+
+    try {
+      var img = fileList.dragger.file.originFileObj;
+      var imgList = fileList.dragger.fileList;
+    } catch (e) {
+      console.log(e)
+    }
+
+    if (img && this.acceptTypes.includes(img.type) && imgList.length == 1) {
       var self = this;
       var formData = new FormData();
       formData.append('img', img)
@@ -83,7 +89,6 @@ class ImageView extends React.Component{
         currOutput: "Please upload only 1 image of an accepted type (.jpg, .jpeg, .png)."
       })
     }
-
     this.formRef.current.resetFields();
   }
 
@@ -91,19 +96,18 @@ class ImageView extends React.Component{
   // TODO: add yes/no buttons that let me label data that people upload
   render() {
     return(
-      <div className="App">
-        <div><img class="potImg" src={this.state.currImg} height="250" /></div>
-        <div>{this.state.currOutput}</div>
-
+      <div className="ImageView">
         <div>
           Upload an image and let the machine learning model tell you whether or not it contains pot!
         </div>
+        <div><img class="potImg" src={this.state.currImg} height="250" /></div>
 
         <div>
           <Form
             name="my_form"
             onFinish={(fileList) => this.fileUpload(fileList)}
             ref={this.formRef}
+            style={{marginTop: "3%"}}
           >
 
             <Form.Item>
@@ -112,9 +116,11 @@ class ImageView extends React.Component{
                   name="files"
                   accept={this.acceptTypes}
                   beforeUpload={file => this.fileDisplay(file)}
+                  showUploadList={false}
+                  style={{borderColor: "green"}}
                   >
                   <p className="ant-upload-drag-icon">
-                    <InboxOutlined />
+                    <InboxOutlined style={{color: "green"}}/>
                   </p>
                   <p className="ant-upload-text">Click or drag file to this area to upload</p>
                 </Upload.Dragger>
@@ -128,11 +134,13 @@ class ImageView extends React.Component{
               }}
             >
 
-              <Button type="primary"> {/*type="primary" is what makes onFinish work*/}
-                Submit
+              <Button type="primary" style={{background: "green", borderColor: "black"}}> {/*type="primary" is what makes onFinish work*/}
+                Analyze Image
               </Button>
             </Form.Item>
           </Form>
+
+          <div className="output">{this.state.currOutput}</div>
         </div>
       </div>
     )
