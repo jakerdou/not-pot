@@ -1,16 +1,17 @@
 import cv2
-import os
-import urllib
+# import os
+# import urllib
 import numpy as np
 from flask import Flask
 from flask import request
 from tensorflow import keras
 from flask_cors import CORS
 # from flask_pymongo import PyMongo
-from config import mongo_pswd
+# from config import mongo_pswd
 
 
 # TODO: need to verify type of file, it will fail and the server app will crash if the wrong file is put in
+# TODO: add tensorflow to requirements.txt
 
 app = Flask(__name__)
 CORS(app)

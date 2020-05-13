@@ -16,6 +16,7 @@ class ImageView extends React.Component{
 
     this.formRef = React.createRef(); // COMBAK:
 
+    // FIXME: make sure people can upload images from phone
     this.acceptTypes = ["image/jpeg", "image/jpg", "image/png"]
 
     this.state = {
