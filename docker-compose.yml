@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  app:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    network_mode: host
+    # if network_mode is host then we don't need to expose ports
