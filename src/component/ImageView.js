@@ -71,7 +71,7 @@ class ImageView extends React.Component{
 
       $.ajax({
             type: 'POST',
-            url: 'https://18.220.140.183:5000/api/model',
+            url: 'http://18.220.140.183:5000/api/model',
             data: formData,
             enctype: 'multipart/form-data',
             contentType: false,
@@ -140,6 +140,7 @@ class ImageView extends React.Component{
               </Button>
             </Form.Item>
           </Form>
+
 
           <div className="output">{this.state.currOutput}</div>
         </div>
