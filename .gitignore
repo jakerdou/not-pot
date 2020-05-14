@@ -1,7 +1,7 @@
 **/node_modules
 **/build
-**/backend/config.py
-**/backend/NotPotPem.pem
-**/backend/__pycache__
+**/backend/app/config.py
+**/backend/app/__pycache__
+**/backend/app/*.pyc
 **/data
 .DS_Store
