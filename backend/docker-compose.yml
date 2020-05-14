@@ -8,5 +8,13 @@ services:
     network_mode: host
     # if network_mode is host then we don't need to expose ports
 
+  nginx:
+    build: ./nginx
+    container_name: nginx
+    environment:
+      - SERVER_NAME=0.0.0.0
+    restart: always
+    network_mode: host
+
     # run sudo docker-compose build and then sudo docker-compose up to run the app
     # after that run sudo docker-compose up --build

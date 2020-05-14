@@ -10,6 +10,8 @@ import 'antd/dist/antd.css';
 
 const { Header, Content, Footer } = Layout;
 
+// TODO: remove config from git repo
+
 class App extends React.Component{
     render(){
         return(
