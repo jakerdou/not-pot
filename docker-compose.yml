@@ -7,3 +7,6 @@ services:
       - "5000:5000"
     network_mode: host
     # if network_mode is host then we don't need to expose ports
+
+    # run sudo docker-compose build and then sudo docker-compose up to run the app
+    # after that run sudo docker-compose up --build

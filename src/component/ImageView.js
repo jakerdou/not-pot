@@ -71,7 +71,7 @@ class ImageView extends React.Component{
 
       $.ajax({
             type: 'POST',
-            url: 'https://3.134.83.90:5000/api/model',
+            url: 'https://18.220.140.183:5000/api/model',
             data: formData,
             enctype: 'multipart/form-data',
             contentType: false,
