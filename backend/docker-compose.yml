@@ -2,7 +2,7 @@ version: '3'
 
 services:
   app:
-    build: ./app
+    build: ./app-docker
     ports:
       - "5000:5000"
     network_mode: host
