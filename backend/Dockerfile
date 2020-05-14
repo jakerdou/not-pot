@@ -15,4 +15,4 @@ WORKDIR /opt/
 ENV LANG C.UTF-8
 ENV LC_ALL C.UTF-8
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "wsgi:app"]
