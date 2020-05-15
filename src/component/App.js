@@ -10,7 +10,7 @@ import 'antd/dist/antd.css';
 
 const { Header, Content, Footer } = Layout;
 
-// TODO: remove config from git repo
+// TODO: remove config from git repo, make serve over https, maybe do through aws
 
 class App extends React.Component{
     render(){
