@@ -5,4 +5,4 @@ Web app inspired by Not Hotdog!
 
 [Trello](https://trello.com/b/HwtRx7hH/not-pot)
 
-![Screenshot of app](./src/assets/readmeimg1.PNG)
+![Screenshot of app](./src/assets/readmeimg2.PNG)
